@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace Movie.services
 {
-    public class seatsservices
+    public class seatsservices : Iseatsservices
     {
         private ApplicationDbcontext _context;
         // private reservations _reservations;
@@ -27,7 +27,7 @@ namespace Movie.services
             return type.Split(",").Select(x => x.Trim()).ToList();
         }
 
-     
+
 
     }
 }

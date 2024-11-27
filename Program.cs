@@ -8,12 +8,11 @@ namespace Movie
         {
             var context = new ApplicationDbcontext();
 
-            userservices userservices = new userservices(context);
-             seatsservices seatsservices = new seatsservices(context); 
-            showtimeservices showtimeservices = new showtimeservices(context, seatsservices);
-            hallservices hallservices = new hallservices(context);
-            reservationservice reservationservice = new reservationservice(context, seatsservices, userservices, showtimeservices, hallservices);
-            movieservices movieservices = new movieservices(context);
+            Iuserservices userservices = userservicesManagerFactory.create(context);
+            Iseatsservices seatsservices = seatServicesManagerFactory.create(context); 
+            Ishowtimeservices showtimeservices = ShowtimeServicesManagerFactory.create(context, seatsservices);
+            Ireservationservice reservationservice = reservationservicesManagerFactory.create(context, seatsservices, userservices, showtimeservices);
+            Imovieservices movieservices = movieServicesManagerFactory.create(context);
 
             while (true)
             {

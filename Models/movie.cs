@@ -16,5 +16,13 @@ namespace Movie.Models
         public string category { get; set; }
         public ICollection<servedhall> hall { get; set; }
 
+
+        public movie(string Name,string Description,string category) { 
+        
+            this.Name = Name;
+            this.Description = Description;
+            this.category = category;
+        }
+
     }
 }

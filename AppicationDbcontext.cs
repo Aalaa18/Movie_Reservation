@@ -17,7 +17,7 @@ namespace Movie
         public DbSet<reservations> reservations { get; set; }
         public DbSet<users> users { get; set; }
         public DbSet<hall> hall { get; set; }
-        public DbSet<showtimeseats>showtimeseats { get; set; }
+        public DbSet<showtimeseats> showtimeseats { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -8,21 +8,19 @@ using System.Xml.Linq;
 
 namespace Movie.services
 {
-    public class reservationservice
+    public class reservationservice : Ireservationservice
     {
         private ApplicationDbcontext _context;
-        private seatsservices _seatsservices;
-        private userservices _userservices;
-        private showtimeservices _showtimes;
-        private hallservices _hallservices;
+        private Iseatsservices _seatsservices;
+        private Iuserservices _userservices;
+        private Ishowtimeservices _showtimes;
 
-        public reservationservice(ApplicationDbcontext context, seatsservices seatsservices, userservices userservices, showtimeservices showtimes, hallservices hallservices)
+        public reservationservice(ApplicationDbcontext context, Iseatsservices seatsservices, Iuserservices userservices, Ishowtimeservices showtimes)
         {
             _context = context;
             _seatsservices = seatsservices;
             _userservices = userservices;
             _showtimes = showtimes;
-            _hallservices = hallservices;
         }
 
         public List<reservations> GetReservations(users user)
@@ -56,7 +54,7 @@ namespace Movie.services
                     foreach (var se in seat_id)
                     {
                         int.TryParse(se, out int parsedSeatId);
-                        if (showtimeseats.Any(s => s.seat_id == parsedSeatId&&s.istaken ==false))
+                        if (showtimeseats.Any(s => s.seat_id == parsedSeatId && s.istaken == false))
                         {
 
                             var takenseats = showtimeseats.SingleOrDefault(s => s.seat_id == parsedSeatId);
@@ -73,13 +71,7 @@ namespace Movie.services
 
                     if (check)
                     {
-                        var reservations = new reservations
-                        {
-                            user_id = user.Id,
-                            reservedate = DateTime.Now,
-                            reservedseat = s,
-                            showtime_id=x,
-                        };
+                        var reservations = reservationManagerFactory.create(user.Id, DateTime.Now, s, x);
                         _context.reservations.Add(reservations);
                         Console.WriteLine("Booked successfully");
 
@@ -115,6 +107,11 @@ namespace Movie.services
 
                 Console.WriteLine($"{user.Name} made a reservation  at time: {us.reservedate} with seats {us.reservedseat}");
             }
+            if(res.Count==0)
+            {
+                Console.WriteLine("there's noreservations Done Yet");
+            }
+
 
         }
 
@@ -191,6 +188,6 @@ namespace Movie.services
             _userservices.RemoveUser(name);
         }
 
-       
+
     }
 }

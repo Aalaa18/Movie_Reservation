@@ -25,6 +25,15 @@ namespace Movie.Models
         [ForeignKey("showtime")]
         public int showtime_id { get; set; }
 
+
+        public reservations(int user_id,DateTime reservedate,string reservedseat,int showtime_id)
+        {
+            this.user_id = user_id;
+            this.reservedate = reservedate;
+            this.reservedseat = reservedseat;
+            this.showtime_id = showtime_id;
+        }
+
         
        
     }

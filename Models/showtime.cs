@@ -23,5 +23,14 @@ namespace Movie.Models
         public ICollection<showtimeseats> showtimeseats { get; set; }
 
         public ICollection<reservations> reservations { get; set; }
+
+        public showtime( DateTime date, int show_hall_id)
+        {
+          
+            this.date = date;
+            this.show_hall_id = show_hall_id;
+            this.is_active = true;
+
+        }
     }
 }

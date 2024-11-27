@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Movie.services
 {
-    public class showtimeservices
+    public class showtimeservices : Ishowtimeservices
     {
         private ApplicationDbcontext _context;
 
-        private seatsservices _seatsservices;
-        public showtimeservices(ApplicationDbcontext context,seatsservices seatsservices)
+        private Iseatsservices _seatsservices;
+        public showtimeservices(ApplicationDbcontext context, Iseatsservices seatsservices)
         {
             _context = context;
             _seatsservices = seatsservices;
@@ -65,7 +65,7 @@ namespace Movie.services
 
         public void Display(List<reservations> reservations, showtime showtimes)
         {
-            foreach (reservations s in reservations)
+            foreach (var s in reservations)
             {
                 if (showtimes.date >= DateTime.Now)
                     Console.WriteLine($"user id :{s.user_id} has a reservation :{s.id} at date :{s.reservedate} with seats {s.reservedseat}");
@@ -89,34 +89,24 @@ namespace Movie.services
                 Console.WriteLine("this hall will be Added");
                 _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT hall ON");
 
-                hall = new hall
-                {
-                    id = hallId,
-                };
+                hall = hallManagerFactory.create(hallId);
                 _context.hall.Add(hall);
                 _context.SaveChanges();
                 _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT hall OFF");
 
             }
+
+
+
+
+            var servedHall = servedhallManagerFactory.create(hall.id, movie.Id);
             
-
-
-
-            var servedHall = new servedhall
-            {
-                movie_id = movie.Id,
-                hall_id = hall.id
-            };
 
             _context.servedhalls.Add(servedHall);
             _context.SaveChanges();
 
-            var showtime = new showtime
-            {
-                date = date,
-                show_hall_id = servedHall.Id,
-                is_active = true
-            };
+            var showtime = showtimeManagerFactory.create(date, servedHall.Id);
+       
 
 
             _context.showtime.Add(showtime);
@@ -130,17 +120,17 @@ namespace Movie.services
 
         public void RemoveShowTime(string id)
         {
-           
+
             var seat_id = _seatsservices.splittingString(id);
             bool check = false;
             foreach (var se in seat_id)
             {
                 int.TryParse(se, out int parsedSeatId);
-                var show =GetShowtimes(parsedSeatId);
+                var show = GetShowtimes(parsedSeatId);
                 _context.showtime.Remove(show);
             }
 
-               
+
             _context.SaveChanges();
 
             Console.WriteLine("Removed");
@@ -148,20 +138,15 @@ namespace Movie.services
 
         public void AddSeatsForShowtime(int id)
         {
-            var show=GetShowtimes(id);
+            var show = GetShowtimes(id);
 
             if (show != null)
             {
                 int seatnum = 10;
                 for (int i = 1; i <= seatnum; i++)
                 {
-                    var seat = new showtimeseats
-                    {
-                        seat_id = i,
-                        showtime_id = id,
-                        istaken = false,
+                    var seat = showtimeseatsManagerFactory.create(i, id);
 
-                    };
 
                     _context.showtimeseats.Add(seat);
                 }
@@ -173,7 +158,7 @@ namespace Movie.services
             }
             _context.SaveChanges();
 
-            
+
         }
 
     }

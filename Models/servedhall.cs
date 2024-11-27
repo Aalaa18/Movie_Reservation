@@ -20,6 +20,11 @@ namespace Movie.Models
         public int hall_id { get; set; }
 
 
+        public servedhall(int hall_id,int movie_id)
+        {
+            this.hall_id = hall_id;
+            this.movie_id = movie_id;
+        }
 
 
     }

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Movie.services
 {
-    public class userservices
+    public class userservices : Iuserservices
     {
-        private ApplicationDbcontext _context;
+        private readonly ApplicationDbcontext _context;
 
         public userservices(ApplicationDbcontext context)
         {
@@ -103,13 +103,7 @@ press x to exit
                 var user_type = Console.ReadLine();
                 if (user_pass.Length >= 8 && user_mail.Contains("@gmail.com") && GetUsers(user_name) == null)
                 {
-                    var user = new users
-                    {
-                        Name = user_name,
-                        email = user_mail,
-                        pass = user_pass,
-                        type = user_type
-                    };
+                    var user = userManegerFactory.create(user_name, user_pass,user_mail,user_type);
 
                     _context.users.Add(user);
 
@@ -143,11 +137,11 @@ press x to exit
 
         public void RemoveUser(string name)
         {
-            var user=GetUsers(name);    
+            var user = GetUsers(name);
             if (user != null)
             {
                 _context.users.Remove(user);
-                _context.SaveChanges(); 
+                _context.SaveChanges();
                 Console.WriteLine("User Removed");
 
             }

@@ -26,6 +26,12 @@ namespace Movie.Models
         public int showtime_id { get; set; }
 
     
+        public showtimeseats (int seat_id, int showtime_id)
+        {
+            this.seat_id = seat_id;
+            this.showtime_id = showtime_id;
+            this.istaken = false;
+        }
 
         
     }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Movie.services
 {
-    public class movieservices
+    public class movieservices : Imovieservices
     {
         private ApplicationDbcontext _context;
 
@@ -36,13 +36,7 @@ namespace Movie.services
 
         public void AddMovie(string name, string Category, string Description)
         {
-            movie movie = new movie
-            {
-                Name = name,
-                category = Category,
-                Description = Description,
-
-            };
+            movie movie = MovieManagerFactory.create(name, Description, Category);
             _context.movies.Add(movie);
             _context.SaveChanges();
             Console.WriteLine("Added successfully");

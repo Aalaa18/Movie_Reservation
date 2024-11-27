@@ -17,5 +17,14 @@ namespace Movie.Models
         public string type { get; set; }
 
         public ICollection<reservations> reservations { get; set; }
+
+        public users(string Name,string pass,string email,string type ) { 
+          
+            this.Name = Name;
+            this.pass = pass;
+            this.email = email;
+            this.type = type;
+        
+        }
     }
 }

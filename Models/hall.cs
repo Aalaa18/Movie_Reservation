@@ -13,5 +13,10 @@ namespace Movie.Models
         public int id { get; set; }
 
         public ICollection<servedhall> servedhalls { get; set; }
+
+        public hall(int id) { 
+
+            this.id = id;
+        }
     }
 }
