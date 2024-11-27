@@ -1,4 +1,5 @@
 ﻿using Movie.Models;
+using Movie.services.interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

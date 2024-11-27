@@ -1,4 +1,6 @@
-﻿using Movie.services;
+﻿using Movie.Designpatterns.Factories;
+using Movie.services;
+using Movie.services.interfaces;
 
 namespace Movie
 {

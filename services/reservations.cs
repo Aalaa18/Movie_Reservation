@@ -1,4 +1,5 @@
 ﻿using Movie.Models;
+using Movie.services.interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -109,7 +110,7 @@ namespace Movie.services
             }
             if(res.Count==0)
             {
-                Console.WriteLine("there's noreservations Done Yet");
+                Console.WriteLine("there's No reservations Done Yet");
             }
 
 
